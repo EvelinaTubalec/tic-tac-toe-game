@@ -29,6 +29,7 @@ public class Game {
             }else if (i == 2) {
                 gameWithComputer(array);
             }else if (i == 0){
+                InputData.scanner.close();
                 break;
             }
         }

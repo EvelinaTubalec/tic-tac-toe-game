@@ -9,7 +9,6 @@ public class InputData {
     public int checkInput(String message){
         int inputValue;
         while (true) {
-            Scanner scanner = new Scanner(System.in);
             System.out.println("Please, enter " + message);
             if (!scanner.hasNextInt()) {
                 String input = scanner.next();
