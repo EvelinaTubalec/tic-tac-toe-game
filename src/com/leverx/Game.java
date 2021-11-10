@@ -131,6 +131,8 @@ public class Game {
     }
 
     public boolean isGameOverCheckAndWrite(String[][] array, int count, String player){
+        //if the count of identical elements in a row, column or diagonals is array.length,
+        // then the player has won and the game is over
         if (count == array.length) {
             System.out.println("THE GAME IS OVER! " + player + " won!!!");
             return true;

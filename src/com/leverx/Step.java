@@ -2,15 +2,15 @@ package com.leverx;
 
 public class Step {
 
-    private int x; //horizontal coordinate
-
-    private int y; //vertical coordinate
-
     private static final String player1 = "X";
 
     private static final String player2 = "0";
 
     private final Desk desk = new Desk();
+
+    private int x; //horizontal coordinate
+
+    private int y; //vertical coordinate
 
     public void doPlayerStep(String[][] array, String player, InputData inputData) {
         System.out.print("Player: (" + player + ") ");
@@ -60,7 +60,6 @@ public class Step {
         return false;
     }
 
-
     public boolean isTheBestStepForComputerForColumns(String[][] array, String player) {
         for (int j = 0; j < array.length; j++) {
             int count = 0; //count of similar cells
@@ -77,6 +76,11 @@ public class Step {
     }
 
     public boolean isStepForWin(String[][] array, int count, int i, int j, String player) {
+        /* go over each element of the line,
+        the number of identical elements in the line is "array.length - 1" means
+        that the player can win in the next move,
+        so we make a computer move to an empty cell
+         */
         if (array[i][j].equals(player)) {
             count++;
             if (count == array.length - 1) {
@@ -95,6 +99,7 @@ public class Step {
         int count = 0; //count of similar cells
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
+                //if all line of elements contain coordinates, where i == j, then we are on the first diagonal
                 if (i == j && array[i][j].equals(player)) {
                     count++;
                     if ((count == array.length - 1)) {
@@ -117,6 +122,8 @@ public class Step {
         int count = 0; //count of similar cells
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
+                //if all line of elements contain coordinates, where i + j == array.length-1,
+                //then we are on the second diagonal
                 if ((i + j == array.length-1) && array[i][j].equals(player)) {
                     count++;
                     if ((count == array.length - 1)) {
