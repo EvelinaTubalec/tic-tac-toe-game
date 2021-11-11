@@ -34,8 +34,8 @@ public class Step {
     public void doComputerStep(String[][] array, String player) {
         System.out.println("Player 2. (0)");
         while (true) {
-            if (!isTheBestStepForComputer(array, PLAYER_2)) {
-                if (!isTheBestStepForComputer(array, PLAYER_1)) {
+            if (isTheBestStepForComputer(array, PLAYER_2)) {
+                if (isTheBestStepForComputer(array, PLAYER_1)) {
                     y = (int) (Math.random() * 3);
                     x = (int) (Math.random() * 3);
                     if (array[x][y].equals(".")) {
@@ -145,9 +145,9 @@ public class Step {
     }
 
     public boolean isTheBestStepForComputer(String[][] array, String player) {
-        return (isTheBestStepForComputerForLines(array, player)) ||
-                (isTheBestStepForComputerForColumns(array, player)) ||
-                (isTheBestStepForComputerForDiagonal1(array, player)) ||
-                (isTheBestStepForComputerForDiagonal2(array, player));
+        return (!isTheBestStepForComputerForLines(array, player)) &&
+                (!isTheBestStepForComputerForColumns(array, player)) &&
+                (!isTheBestStepForComputerForDiagonal1(array, player)) &&
+                (!isTheBestStepForComputerForDiagonal2(array, player));
     }
 }
