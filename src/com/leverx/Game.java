@@ -43,10 +43,10 @@ public class Game {
 
     public void gameWithEachOther(String[][] array) {
         while (true) {
-            if (actionsForPlayer(array, PLAYER_1)) {
+            if (isActionForPlayer(array, PLAYER_1)) {
                 break;
             }
-            if (actionsForPlayer(array, PLAYER_2)) {
+            if (isActionForPlayer(array, PLAYER_2)) {
                 break;
             }
         }
@@ -54,21 +54,21 @@ public class Game {
 
     public void gameWithComputer(String[][] array) {
         while (true) {
-            if (actionsForPlayer(array, PLAYER_1)) {
+            if (isActionForPlayer(array, PLAYER_1)) {
                 break;
             }
-            if (actionsForComputer(array, PLAYER_2)) {
+            if (isActionForComputer(array, PLAYER_2)) {
                 break;
             }
         }
     }
 
-    public boolean actionsForPlayer(String[][] array, String player) {
+    public boolean isActionForPlayer(String[][] array, String player) {
         step.doPlayerStep(array, player, inputData, SCANNER);
         return isTheGameOver(array, player);
     }
 
-    public boolean actionsForComputer(String[][] array, String player) {
+    public boolean isActionForComputer(String[][] array, String player) {
         step.doComputerStep(array, player);
         return isTheGameOver(array, player);
     }
