@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 public class Step {
 
-    private static final String player1 = "X";
+    private static final String PLAYER_1 = "X";
 
-    private static final String player2 = "0";
+    private static final String PLAYER_2 = "0";
 
     private final Desk desk = new Desk();
 
@@ -34,8 +34,8 @@ public class Step {
     public void doComputerStep(String[][] array, String player) {
         System.out.println("Player 2. (0)");
         while (true) {
-            if (!isTheBestStepForComputer(array, player2)) {
-                if (!isTheBestStepForComputer(array, player1)) {
+            if (!isTheBestStepForComputer(array, PLAYER_2)) {
+                if (!isTheBestStepForComputer(array, PLAYER_1)) {
                     y = (int) (Math.random() * 3);
                     x = (int) (Math.random() * 3);
                     if (array[x][y].equals(".")) {
@@ -66,7 +66,7 @@ public class Step {
                     if (count == array.length - 1) {
                         for (j = 0; j < array[i].length; j++) {
                             if (array[i][j].equals(".")) {
-                                array[i][j] = player2;
+                                array[i][j] = PLAYER_2;
                                 return true;
                             }
                         }
@@ -86,7 +86,7 @@ public class Step {
                     if (count == array.length - 1) {
                         for (i = 0; i < array.length; i++) {
                             if (array[i][j].equals(".")) {
-                                array[i][j] = player2;
+                                array[i][j] = PLAYER_2;
                                 return true;
                             }
                         }
@@ -108,7 +108,7 @@ public class Step {
                         for (i = 0; i < array.length; i++) {
                             for (j = 0; j < array[i].length; j++) {
                                 if (i == j && array[i][j].equals(".")) {
-                                    array[i][j] = player2;
+                                    array[i][j] = PLAYER_2;
                                     return true;
                                 }
                             }
@@ -132,7 +132,7 @@ public class Step {
                         for (i = 0; i < array.length; i++) {
                             for (j = 0; j < array[i].length; j++) {
                                 if ((i + j == array.length - 1) && array[i][j].equals(".")) {
-                                    array[i][j] = player2;
+                                    array[i][j] = PLAYER_2;
                                     return true;
                                 }
                             }
