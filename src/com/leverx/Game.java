@@ -4,21 +4,15 @@ import java.util.Scanner;
 
 public class Game {
 
-    private static final String PLAYER_1 = "X";
-
-    private static final String PLAYER_2 = "0";
-
     private static final int SIZE = 3;
 
     private static final String[][] ARRAY = new String[SIZE][SIZE];
-
-    private final Scanner scanner = new Scanner(System.in);
 
     private final Desk desk = new Desk();
 
     private final Step step = new Step();
 
-    private final InputData inputData = new InputData();
+    private final InputDataFromScanner inputDataFromScanner = new InputDataFromScanner();
 
     private int count; //count of similar cells
 
@@ -28,14 +22,14 @@ public class Game {
             System.out.println("1. Game with 2 players");
             System.out.println("2. Game with computer bot");
             System.out.println("0. Exit");
-            int i = inputData.checkInput("your choice:", scanner, ARRAY);
+            int i = inputDataFromScanner.checkInput("your choice:", ARRAY);
             desk.initializeDesk(ARRAY);
             if (i == 1) {
                 gameWithEachOther(ARRAY);
             } else if (i == 2) {
                 gameWithComputer(ARRAY);
             } else if (i == 0) {
-                scanner.close();
+                inputDataFromScanner.scanner.close();
                 break;
             }
         }
@@ -43,10 +37,7 @@ public class Game {
 
     public void gameWithEachOther(String[][] array) {
         while (true) {
-            if (isActionForPlayer(array, PLAYER_1)) {
-                break;
-            }
-            if (isActionForPlayer(array, PLAYER_2)) {
+            if (isActionForPlayer(array, Step.PLAYER_1) || isActionForPlayer(array, Step.PLAYER_2)) {
                 break;
             }
         }
@@ -54,17 +45,14 @@ public class Game {
 
     public void gameWithComputer(String[][] array) {
         while (true) {
-            if (isActionForPlayer(array, PLAYER_1)) {
-                break;
-            }
-            if (isActionForComputer(array, PLAYER_2)) {
+            if (isActionForPlayer(array, Step.PLAYER_1) || isActionForComputer(array, Step.PLAYER_2)) {
                 break;
             }
         }
     }
 
     public boolean isActionForPlayer(String[][] array, String player) {
-        step.doPlayerStep(array, player, inputData, scanner);
+        step.doPlayerStep(array, player, inputDataFromScanner);
         return isTheGameOver(array, player);
     }
 
@@ -107,7 +95,7 @@ public class Game {
         return false;
     }
 
-    public boolean isTheGameOverOnDiagonal1(String[][] array, String player) {
+    public boolean isTheGameOverOnDiagonalOne(String[][] array, String player) {
         count = 0;
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
@@ -122,7 +110,7 @@ public class Game {
         return false;
     }
 
-    public boolean isTheGameOverOnDiagonal2(String[][] array, String player) {
+    public boolean isTheGameOverOnDiagonalTwo(String[][] array, String player) {
         count = 0;
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
@@ -138,8 +126,6 @@ public class Game {
     }
 
     public boolean isGameOverCheckAndWrite(String[][] array, int count, String player) {
-        //if the count of identical elements in a row, column or diagonals is array.length,
-        //then the player has won and the game is over
         if (count == array.length) {
             System.out.println("THE GAME IS OVER! " + player + " won!!!");
             return true;
@@ -166,8 +152,8 @@ public class Game {
     public boolean isTheGameOver(String[][] array, String player) {
         return (isTheGameOverOnLines(array, player)) ||
                 (isTheGameOverInColumn(array, player)) ||
-                (isTheGameOverOnDiagonal1(array, player)) ||
-                (isTheGameOverOnDiagonal2(array, player)) ||
+                (isTheGameOverOnDiagonalOne(array, player)) ||
+                (isTheGameOverOnDiagonalTwo(array, player)) ||
                 (isTheGameOverOfDeadHeat(array));
     }
 }

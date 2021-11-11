@@ -1,12 +1,10 @@
 package com.leverx;
 
-import java.util.Scanner;
-
 public class Step {
 
-    private static final String PLAYER_1 = "X";
+    static final String PLAYER_1 = "X";
 
-    private static final String PLAYER_2 = "0";
+    static final String PLAYER_2 = "0";
 
     private final Desk desk = new Desk();
 
@@ -16,11 +14,11 @@ public class Step {
 
     private int count; //count of similar cells
 
-    public void doPlayerStep(String[][] array, String player, InputData inputData, Scanner scanner) {
+    public void doPlayerStep(String[][] array, String player, InputDataFromScanner inputDataFromScanner) {
         System.out.print("Player: (" + player + ") ");
         while (true) {
-            x = inputData.checkInput("horizontal coordinate:", scanner, array);
-            y = inputData.checkInput("vertical coordinate:", scanner, array);
+            x = inputDataFromScanner.checkInput("horizontal coordinate:", array);
+            y = inputDataFromScanner.checkInput("vertical coordinate:", array);
             if (!array[x][y].equals(".")) {
                 System.out.println("Incorrect input!This cage is already occupied!");
             } else {
@@ -34,17 +32,13 @@ public class Step {
     public void doComputerStep(String[][] array, String player) {
         System.out.println("Player 2. (0)");
         while (true) {
-            if (isTheBestStepForComputer(array, PLAYER_2)) {
-                if (isTheBestStepForComputer(array, PLAYER_1)) {
+            if (isTheBestStepForComputer(array, PLAYER_2) || isTheBestStepForComputer(array, PLAYER_1)) {
                     y = (int) (Math.random() * array.length);
                     x = (int) (Math.random() * array.length);
                     if (array[x][y].equals(".")) {
                         array[x][y] = player;
                         break;
                     }
-                } else {
-                    break;
-                }
             } else {
                 break;
             }
@@ -56,12 +50,7 @@ public class Step {
         for (int i = 0; i < array.length; i++) {
             count = 0;
             for (int j = 0; j < array.length; j++) {
-                /* go over each element of the line,
-                the number of identical elements in the line is "array.length - 1" means
-                that the player can win in the next move,
-                so we make a computer move to an empty cell
-                */
-                if (array[i][j].equals(player)) {
+                    if (array[i][j].equals(player)) {
                     count++;
                     if (count == array.length - 1) {
                         for (j = 0; j < array[i].length; j++) {
@@ -97,11 +86,10 @@ public class Step {
         return false;
     }
 
-    public boolean isTheBestStepForComputerForDiagonal1(String[][] array, String player) {
+    public boolean isTheBestStepForComputerForDiagonalOne(String[][] array, String player) {
         count = 0;
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array.length; j++) {
-                //if all line of elements contain coordinates, where i == j, then we are on the first diagonal
                 if (i == j && array[i][j].equals(player)) {
                     count++;
                     if ((count == array.length - 1)) {
@@ -120,12 +108,10 @@ public class Step {
         return false;
     }
 
-    public boolean isTheBestStepForComputerForDiagonal2(String[][] array, String player) {
+    public boolean isTheBestStepForComputerForDiagonalTwo(String[][] array, String player) {
         count = 0;
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array.length; j++) {
-                //if all line of elements contain coordinates, where i + j == array.length-1,
-                //then we are on the second diagonal
                 if ((i + j == array.length - 1) && array[i][j].equals(player)) {
                     count++;
                     if ((count == array.length - 1)) {
@@ -147,7 +133,7 @@ public class Step {
     public boolean isTheBestStepForComputer(String[][] array, String player) {
         return (!isTheBestStepForComputerForLines(array, player)) &&
                 (!isTheBestStepForComputerForColumns(array, player)) &&
-                (!isTheBestStepForComputerForDiagonal1(array, player)) &&
-                (!isTheBestStepForComputerForDiagonal2(array, player));
+                (!isTheBestStepForComputerForDiagonalOne(array, player)) &&
+                (!isTheBestStepForComputerForDiagonalTwo(array, player));
     }
 }
