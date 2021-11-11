@@ -12,7 +12,7 @@ public class Game {
 
     private static final String[][] ARRAY = new String[SIZE][SIZE];
 
-    private static final Scanner SCANNER = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     private final Desk desk = new Desk();
 
@@ -28,14 +28,14 @@ public class Game {
             System.out.println("1. Game with 2 players");
             System.out.println("2. Game with computer bot");
             System.out.println("0. Exit");
-            int i = inputData.checkInput("your choice:", SCANNER);
+            int i = inputData.checkInput("your choice:", scanner);
             desk.initializeDesk(ARRAY);
             if (i == 1) {
                 gameWithEachOther(ARRAY);
             } else if (i == 2) {
                 gameWithComputer(ARRAY);
             } else if (i == 0) {
-                SCANNER.close();
+                scanner.close();
                 break;
             }
         }
@@ -64,7 +64,7 @@ public class Game {
     }
 
     public boolean isActionForPlayer(String[][] array, String player) {
-        step.doPlayerStep(array, player, inputData, SCANNER);
+        step.doPlayerStep(array, player, inputData, scanner);
         return isTheGameOver(array, player);
     }
 
