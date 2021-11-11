@@ -28,7 +28,7 @@ public class Game {
             System.out.println("1. Game with 2 players");
             System.out.println("2. Game with computer bot");
             System.out.println("0. Exit");
-            int i = inputData.checkInput("your choice:", scanner);
+            int i = inputData.checkInput("your choice:", scanner, ARRAY);
             desk.initializeDesk(ARRAY);
             if (i == 1) {
                 gameWithEachOther(ARRAY);

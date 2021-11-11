@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class InputData {
 
-    public int checkInput(String message, Scanner scanner){
+    public int checkInput(String message, Scanner scanner, String[][] array){
         int inputValue;
         while (true) {
             System.out.println("Please, enter " + message);
@@ -13,7 +13,7 @@ public class InputData {
                 System.out.println("Incorrect input " + input + "!You have to enter a number!Please, try again!");
             } else {
                 inputValue = scanner.nextInt();
-                if (inputValue < 0 || inputValue > 2) {
+                if (inputValue < 0 || inputValue > array.length-1) {
                     System.out.println("Incorrect input!You have to enter a number in the range of [0;2]!" +
                             "Please, try again!");
                 } else {

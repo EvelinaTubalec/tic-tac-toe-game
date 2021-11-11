@@ -19,8 +19,8 @@ public class Step {
     public void doPlayerStep(String[][] array, String player, InputData inputData, Scanner scanner) {
         System.out.print("Player: (" + player + ") ");
         while (true) {
-            x = inputData.checkInput("horizontal coordinate:", scanner);
-            y = inputData.checkInput("vertical coordinate:", scanner);
+            x = inputData.checkInput("horizontal coordinate:", scanner, array);
+            y = inputData.checkInput("vertical coordinate:", scanner, array);
             if (!array[x][y].equals(".")) {
                 System.out.println("Incorrect input!This cage is already occupied!");
             } else {
@@ -36,8 +36,8 @@ public class Step {
         while (true) {
             if (isTheBestStepForComputer(array, PLAYER_2)) {
                 if (isTheBestStepForComputer(array, PLAYER_1)) {
-                    y = (int) (Math.random() * 3);
-                    x = (int) (Math.random() * 3);
+                    y = (int) (Math.random() * array.length);
+                    x = (int) (Math.random() * array.length);
                     if (array[x][y].equals(".")) {
                         array[x][y] = player;
                         break;
