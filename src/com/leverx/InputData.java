@@ -4,9 +4,7 @@ import java.util.Scanner;
 
 public class InputData {
 
-    static final Scanner scanner = new Scanner(System.in);
-
-    public int checkInput(String message){
+    public int checkInput(String message, Scanner scanner){
         int inputValue;
         while (true) {
             System.out.println("Please, enter " + message);

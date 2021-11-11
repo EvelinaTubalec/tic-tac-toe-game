@@ -1,14 +1,18 @@
 package com.leverx;
 
+import java.util.Scanner;
+
 public class Game {
 
-    private static final String player1 = "X";
+    private static final String PLAYER_1 = "X";
 
-    private static final String player2 = "0";
+    private static final String PLAYER_2 = "0";
 
-    private static final int size = 3;
+    private static final int SIZE = 3;
 
-    private static final String[][] array = new String[size][size];
+    private static final String[][] ARRAY = new String[SIZE][SIZE];
+
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     private final Desk desk = new Desk();
 
@@ -16,60 +20,62 @@ public class Game {
 
     private final InputData inputData = new InputData();
 
-    public void chooseTheGame(){
-        while(true) {
+    private int count; //count of similar cells
+
+    public void chooseTheGame() {
+        while (true) {
             System.out.println("Please, choose the variant of the game:");
             System.out.println("1. Game with 2 players");
             System.out.println("2. Game with computer bot");
             System.out.println("0. Exit");
-            int i = inputData.checkInput("your choice:");
-            desk.initializeDesk(array);
+            int i = inputData.checkInput("your choice:", SCANNER);
+            desk.initializeDesk(ARRAY);
             if (i == 1) {
-                gameWithEachOther(array);
-            }else if (i == 2) {
-                gameWithComputer(array);
-            }else if (i == 0){
-                InputData.scanner.close();
+                gameWithEachOther(ARRAY);
+            } else if (i == 2) {
+                gameWithComputer(ARRAY);
+            } else if (i == 0) {
+                SCANNER.close();
                 break;
             }
         }
     }
 
-    public void gameWithEachOther(String[][] array){
+    public void gameWithEachOther(String[][] array) {
         while (true) {
-            if (actionsForPlayer(array, player1)){
+            if (actionsForPlayer(array, PLAYER_1)) {
                 break;
             }
-            if (actionsForPlayer(array, player2)){
+            if (actionsForPlayer(array, PLAYER_2)) {
                 break;
             }
         }
     }
 
-    public void gameWithComputer(String[][] array){
+    public void gameWithComputer(String[][] array) {
         while (true) {
-            if (actionsForPlayer(array, player1)){
+            if (actionsForPlayer(array, PLAYER_1)) {
                 break;
             }
-            if (actionsForComputer(array, player2)) {
+            if (actionsForComputer(array, PLAYER_2)) {
                 break;
             }
         }
     }
 
-    public boolean actionsForPlayer(String[][] array, String player){
-        step.doPlayerStep(array, player, inputData);
+    public boolean actionsForPlayer(String[][] array, String player) {
+        step.doPlayerStep(array, player, inputData, SCANNER);
         return isTheGameOver(array, player);
     }
 
-    public boolean actionsForComputer(String[][] array, String player){
+    public boolean actionsForComputer(String[][] array, String player) {
         step.doComputerStep(array, player);
         return isTheGameOver(array, player);
     }
 
-    public boolean isTheGameOverOnLines(String[][] array, String player){
+    public boolean isTheGameOverOnLines(String[][] array, String player) {
         for (String[] strings : array) {
-            int count = 0; //count of similar cells
+            count = 0;
             for (String string : strings) {
                 if (!string.equals(player)) {
                     break;
@@ -84,9 +90,9 @@ public class Game {
         return false;
     }
 
-    public boolean isTheGameOverInColumn(String[][] array, String player){
+    public boolean isTheGameOverInColumn(String[][] array, String player) {
         for (int j = 0; j < array.length; j++) {
-            int count = 0; //count of similar cells
+            count = 0;
             for (String[] strings : array) {
                 if (!strings[j].equals(player)) {
                     break;
@@ -101,13 +107,13 @@ public class Game {
         return false;
     }
 
-    public boolean isTheGameOverOnDiagonal1(String[][] array, String player){
-        int count = 0; //count of similar cells
+    public boolean isTheGameOverOnDiagonal1(String[][] array, String player) {
+        count = 0;
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
                 if (i == j && array[i][j].equals(player)) {
                     count++;
-                    if(isGameOverCheckAndWrite(array, count, player)){
+                    if (isGameOverCheckAndWrite(array, count, player)) {
                         return true;
                     }
                 }
@@ -116,22 +122,22 @@ public class Game {
         return false;
     }
 
-    public boolean isTheGameOverOnDiagonal2(String[][] array, String player){
-        int count = 0; //count of similar cells
+    public boolean isTheGameOverOnDiagonal2(String[][] array, String player) {
+        count = 0;
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
                 if ((i + j == array.length - 1) && array[i][j].equals(player)) {
-                     count++;
-                     if(isGameOverCheckAndWrite(array, count, player)){
-                         return true;
-                     }
+                    count++;
+                    if (isGameOverCheckAndWrite(array, count, player)) {
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
 
-    public boolean isGameOverCheckAndWrite(String[][] array, int count, String player){
+    public boolean isGameOverCheckAndWrite(String[][] array, int count, String player) {
         //if the count of identical elements in a row, column or diagonals is array.length,
         // then the player has won and the game is over
         if (count == array.length) {
@@ -141,8 +147,8 @@ public class Game {
         return false;
     }
 
-    public boolean isTheGameOverOfDeadHeat(String[][] array){
-        int count = 0; //count of similar cells
+    public boolean isTheGameOverOfDeadHeat(String[][] array) {
+        count = 0;
         for (String[] strings : array) {
             for (String string : strings) {
                 if (string.equals(".")) {
@@ -158,19 +164,11 @@ public class Game {
     }
 
     public boolean isTheGameOver(String[][] array, String player) {
-        if (isTheGameOverOnLines(array, player)) {
-            return true;
-        }else if(isTheGameOverInColumn(array, player)) {
-            return true;
-        }else if(isTheGameOverOnDiagonal1(array, player)){
-            return true;
-        }else if(isTheGameOverOnDiagonal2(array, player)){
-            return true;
-        }else if(isTheGameOverOfDeadHeat(array)){
-            return true;
-        }else {
-            return false;
-        }
+        return (isTheGameOverOnLines(array, player)) ||
+                (isTheGameOverInColumn(array, player)) ||
+                (isTheGameOverOnDiagonal1(array, player)) ||
+                (isTheGameOverOnDiagonal2(array, player)) ||
+                (isTheGameOverOfDeadHeat(array));
     }
 }
 
